@@ -24,6 +24,6 @@ def draw_basic_line(x0, y0, x1, y1):
     except ZeroDivisionError:
         print("Cannot divide by zero!")
    
-
+print("Hello World")
 draw_basic_line( 10, 10 , 10 , 10)
 
