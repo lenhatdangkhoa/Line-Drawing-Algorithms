@@ -9,7 +9,6 @@ The following function will draw a line at the two coordinates:
 (x0,y0) and (x1, y1). This is a just a basic line drawing algorithm.
 """
 def draw_basic_line(x0, y0, x1, y1):
-
     # If x0 == x1, in other words, it's a vertical line, just draw a vertical line |y1 - y0| times.
     if x0 == x1:
         print(True)
@@ -36,7 +35,7 @@ def draw_basic_line(x0, y0, x1, y1):
                 point = [x, y]
                 coordinates.append(point)
 
-        # If Δx < Δy, or |x1-x0| < |y1-y0|, draw vertically |x1-x0| times.
+        # If Δx < Δy, or |x1-x0| < |y1-y0|, draw vertically |y1-y0| times.
         elif (abs(x1-x0)) < (abs(y1-y0)):
             smaller_y_value = min(y0,y1)
             for i in range(abs(y1-y0)):
@@ -58,15 +57,16 @@ def draw_basic_line(x0, y0, x1, y1):
             
         print(f"Equation: {equation}")
 
-
-for i in range(150):
+for i in range(20):
     x0 = random.randint(0,250) 
     x1 = random.randint(0,250) 
     y0 = random.randint(0,250) 
     y1 = random.randint(0,250) 
     print(f"x0 = {x0}, y0= {y0}, x1= {x1}, y1 = {y1}")
-    draw_basic_line(x0, x1, y0, y1)
-
+    draw_basic_line(x0, y0, x1, y1)
+    print(f"{x0}, {y0}. {x1}, {y1}")
+    image.putpixel((x0,y0), (255,0,0))
+    image.putpixel((x1,y1), (255,0,0))
 
 image.show()
 
