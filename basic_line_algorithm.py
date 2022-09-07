@@ -11,7 +11,6 @@ The following function will draw a line at the two coordinates:
 def draw_basic_line(x0, y0, x1, y1):
     # If x0 == x1, in other words, it's a vertical line, just draw a vertical line |y1 - y0| times.
     if x0 == x1:
-        print(True)
         smaller_y_value = min(y0,y1)
         for i in range(abs(y1 - y0)):
             image.putpixel((x0, smaller_y_value + i), (255,255,255))
@@ -57,6 +56,7 @@ def draw_basic_line(x0, y0, x1, y1):
             
         print(f"Equation: {equation}")
 
+'''
 for i in range(20):
     x0 = random.randint(0,250) 
     x1 = random.randint(0,250) 
@@ -67,6 +67,7 @@ for i in range(20):
     print(f"{x0}, {y0}. {x1}, {y1}")
     image.putpixel((x0,y0), (255,0,0))
     image.putpixel((x1,y1), (255,0,0))
-
+'''
+draw_basic_line(0,0, 8, 4)
 image.show()
 
