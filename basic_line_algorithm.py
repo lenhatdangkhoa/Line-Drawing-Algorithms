@@ -2,7 +2,7 @@ import math #Built-in Python Math Library
 from PIL import Image # Python Imaging Library
 import random # Built-in Python Random Library
 # Creating a blank dark screen
-image = Image.new(mode="RGB", size = (251, 251), color = (0,0,0))
+image = Image.new(mode="RGB", size = (250, 250), color = (0,0,0))
 
 """
 The following function will draw a line at the two coordinates:
@@ -45,16 +45,6 @@ def draw_basic_line(x0, y0, x1, y1):
                point = [x,y]
                coordinates.append(point)
 
-        """
-        This will write the coordinates to a text file called "coordinates.txt"
-        """
-        with open("coordinates.txt", 'w') as file:
-            file.write("x\t|\ty\n")
-            for item in coordinates:
-                x_y = f"{item[0]}\t|\t{item[1]}\n"
-                file.write(x_y)
-            
-        print(f"Equation: {equation}")
 
 '''
 for i in range(20):
@@ -68,6 +58,6 @@ for i in range(20):
     image.putpixel((x0,y0), (255,0,0))
     image.putpixel((x1,y1), (255,0,0))
 '''
-draw_basic_line(0,0, 8, 4)
+draw_basic_line(2,6,8,16)
 image.show()
 
