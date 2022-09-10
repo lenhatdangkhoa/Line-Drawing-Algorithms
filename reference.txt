@@ -1,2 +1,28 @@
 https://www.vertexfragment.com/ramblings/bresenham-lines/ 
 - Help with delta y > delta x case for Bresenham
+
+if y0 > y1:
+            print(f"x0 = {x0} y0 = {y0} x1 = {x1} y1 = {y1}")
+            x0, x1 = x1, x0
+            y0, y1 = y1, y0
+            print(f"x0 = {x0} y0 = {y0} x1 = {x1} y1 = {y1}")
+        delta_y = y1 - y0
+        delta_x = x1 - x0
+        big_e = (2 *delta_x) - (2 * delta_y)
+        increment1 = 2 * delta_x
+        increment2 = 2 * (delta_x - delta_y)
+        y_value = min(y0, y1) # y value for the critical loop
+        x_value = min(x0,x1)
+        print(big_e)
+        while True:
+            print(f"{x_value} {y_value}")
+            image.putpixel((x_value, y_value), (255,255,255))
+            if big_e >= 0:
+                x_value += 1
+                big_e -= (delta_y * 2)
+
+            big_e += increment1
+            y_value += 1
+
+            if y_value > max(y0,y1):
+                break

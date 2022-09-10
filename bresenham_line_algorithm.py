@@ -1,4 +1,6 @@
 import math
+from multiprocessing.heap import BufferWrapper
+from re import X
 from tkinter import W #Built-in Python Math Library
 from PIL import Image # Python Imaging Library
 import random # Built-in Python Random Library
@@ -21,16 +23,16 @@ def draw_bresenham_line(x0,y0,x1,y1):
 
     # If Δx >= Δy, or |x1-x0| >= |y1-y0|, draw horizontally |x1-x0| times.
     if (abs(x1 - x0)) >= (abs(y1-y0)):
-        delta_y = y1 - y0
-        delta_x = x1 - x0
+        delta_y = abs(y1 - y0)
+        delta_x = abs(x1 - x0)
         big_e = 2 * delta_y - delta_x
         increment1 = 2 * delta_y
         increment2 = 2 * (delta_y - delta_x)
-        y_value = y0 # Y value for the critical loop
-        x_value = x0 # X value for the critical loop
+        y_value = min(y0, y1) # Y value for the critical loop
+        x_value = min(x0,x1) # X value for the critical loop
 
         while True:
-            print(f"[{x_value}, {y_value}]")
+
             image.putpixel((x_value, y_value), (255,255,255))
             if big_e < 0:
                 big_e += increment1
@@ -39,32 +41,53 @@ def draw_bresenham_line(x0,y0,x1,y1):
                 big_e += increment2
             x_value += 1
 
-            if x_value > x1:
+            if x_value > max(x0,x1):
                 break
 
     # If Δx < Δy, or |x1-x0| < |y1-y0|, draw vertically |y1-y0| times.
     elif (abs(x1-x0)) < (abs(y1-y0)):
-        delta_y = y1 - y0
-        delta_x = x1 - x0
-        big_e = (2 * delta_x) - (2 * delta_y)
-        increment1 = 2 * delta_x
-        increment2 = 2 * (delta_x - delta_y)
-        y_value = y0 # Y value for the critical loop
-        x_value = x0 # X value for the critical loop
-        print(f"E= {big_e}")
-        while True:
-            print(f"[{x_value}, {y_value}]")
-            image.putpixel((x_value, y_value), (255,255,255))
+        if y0 > y1:
+            print(f"x0 = {x0} y0 = {y0} x1 = {x1} y1 = {y1}")
+            x0, x1 = x1, x0
+            y0, y1 = y1, y0
+            print(f"x0 = {x0} y0 = {y0} x1 = {x1} y1 = {y1}")
+        delta_x = (x1 - x0) * 2
+        delta_y = (x1- x0) * 2
+        big_e = delta_x - delta_y
+        x_value = x0
+        y_value = y0
+        image.putpixel((x_value, y_value), (255,255,255))
+        while (delta_y != 0):
             if big_e >= 0:
                 x_value += 1
-                big_e -= (delta_y * 2)
-
-            big_e += increment1
+                big_e -= delta_y
+            
+            big_e += delta_x
             y_value += 1
+            print(f"x = {x_value} y = {y_value}")
+            image.putpixel((x_value, y_value), (255,255,255))
 
-            if y_value > y1:
-                break
-
-draw_bresenham_line(2, 6, 8,16)
-
+coordinates = []
+"""
+for i in range(1):
+    x0 = random.randint(0,249) 
+    x1 = random.randint(0,249) 
+    y0 = random.randint(0,249) 
+    y1 = random.randint(0,249)
+    points = [f'{x0}',f'{y0}',f'{x1}',f'{y1}']
+    coordinates.append(points)
+    draw_bresenham_line(x0, y0, x1, y1)
+    image.putpixel((x0,y0), (255,0,0))
+    image.putpixel((x1,y1), (255,0,0))
+"""
+with open("coordinates.txt", 'w') as f:
+    for points in coordinates:
+        for point in points:
+            f.write(point)
+            f.write("\n")  
+print(coordinates)
+#draw_bresenham_line(193, 34, 126, 245)
+draw_bresenham_line(193, 34, 126, 245)
+image.putpixel((193, 34), (255,0,0))
+image.putpixel((126, 245), (255,0,0))
 image.show()

@@ -21,7 +21,7 @@ def draw_basic_line(x0, y0, x1, y1):
         slope = (y1 - y0) / (x1 - x0)
         y_intercept = y1 - (slope * x1)
         equation = f"y = {slope}x + {y_intercept}" # Equation of the line as the form y = mx + b
-        coordinates = [] # The list of the coordinates of the pixels
+
 
         # If Δx >= Δy, or |x1-x0| >= |y1-y0|, draw horizontally |x1-x0| times.
         if (abs(x1 - x0)) >= (abs(y1-y0)):
@@ -31,8 +31,8 @@ def draw_basic_line(x0, y0, x1, y1):
                 y = (slope * x) + y_intercept
                 y = math.trunc(y)
                 image.putpixel((x,y), (255,255,255))
-                point = [x, y]
-                coordinates.append(point)
+
+
 
         # If Δx < Δy, or |x1-x0| < |y1-y0|, draw vertically |y1-y0| times.
         elif (abs(x1-x0)) < (abs(y1-y0)):
@@ -42,8 +42,8 @@ def draw_basic_line(x0, y0, x1, y1):
                x = (y - y_intercept)/slope
                x = math.trunc(x)
                image.putpixel((x,y), (255,255,255))
-               point = [x,y]
-               coordinates.append(point)
+
+
 
 
 '''
@@ -58,6 +58,27 @@ for i in range(20):
     image.putpixel((x0,y0), (255,0,0))
     image.putpixel((x1,y1), (255,0,0))
 '''
-draw_basic_line(2,6,8,16)
+coordinates = []
+with open("coordinates.txt", 'r') as f:
+    coordinates = f.readlines()
+
+for i in range(len(coordinates)):
+    coordinates[i] = int(coordinates[i])
+print(coordinates)
+line = 0
+print(len(coordinates))
+for i in range(0, len(coordinates), 4):
+    print(f"i = {i}")
+    x0 = coordinates[i]
+    y0 = coordinates[i + 1]
+    x1 = coordinates[i + 2]
+    y1 = coordinates[i + 3]
+    draw_basic_line(x0, y0, x1, y1)
+    print(f"{x0} {y0} {x1} {y1}")
+
+    line += 1
+    print(f"Draw {line} lines")
+
+draw_basic_line(126, 245, 193, 34)
 image.show()
 
