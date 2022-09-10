@@ -23,21 +23,28 @@ def draw_bresenham_line(x0,y0,x1,y1):
 
     # If Δx >= Δy, or |x1-x0| >= |y1-y0|, draw horizontally |x1-x0| times.
     if (abs(x1 - x0)) >= (abs(y1-y0)):
+        if x0 > x1:
+            print(f"x0 = {x0} y0 = {y0} x1 = {x1} y1 = {y1}")
+            x0, x1 = x1, x0
+            y0, y1 = y1, y0
+            print(f"x0 = {x0} y0 = {y0} x1 = {x1} y1 = {y1}")
         delta_y = abs(y1 - y0)
         delta_x = abs(x1 - x0)
         big_e = 2 * delta_y - delta_x
         increment1 = 2 * delta_y
         increment2 = 2 * (delta_y - delta_x)
-        y_value = min(y0, y1) # Y value for the critical loop
-        x_value = min(x0,x1) # X value for the critical loop
-
+        y_value = y0 # Y value for the critical loop
+        x_value = x0 # X value for the critical loop
+        slope = (y1- y0) / (x1 - x0)
         while True:
-
             image.putpixel((x_value, y_value), (255,255,255))
             if big_e < 0:
                 big_e += increment1
             else:
-                y_value += 1
+                if slope >= 0: # Increment y value if slope is positive, otherwise decrement
+                    y_value += 1
+                else: 
+                    y_value -= 1
                 big_e += increment2
             x_value += 1
 
@@ -51,25 +58,32 @@ def draw_bresenham_line(x0,y0,x1,y1):
             x0, x1 = x1, x0
             y0, y1 = y1, y0
             print(f"x0 = {x0} y0 = {y0} x1 = {x1} y1 = {y1}")
-        delta_x = (x1 - x0) * 2
-        delta_y = (x1- x0) * 2
-        big_e = delta_x - delta_y
-        x_value = x0
-        y_value = y0
-        image.putpixel((x_value, y_value), (255,255,255))
-        while (delta_y != 0):
-            if big_e >= 0:
-                x_value += 1
-                big_e -= delta_y
-            
-            big_e += delta_x
-            y_value += 1
-            print(f"x = {x_value} y = {y_value}")
+        delta_y = abs(y1 - y0)
+        delta_x = abs(x1 - x0)
+        big_e = 2 * delta_x - delta_y
+        increment1 = 2 * delta_x
+        increment2 = 2 * (delta_x - delta_y)
+        y_value = y0 # Y value for the critical loop
+        x_value = x0 # X value for the critical loop
+        slope = (y1-y0) / (x1 - x0)
+        while True:
             image.putpixel((x_value, y_value), (255,255,255))
+            if big_e < 0:
+                big_e += increment1
+            else:
+                if slope >= 0: # Increment y value if slope is positive, otherwise decrement
+                    x_value += 1
+                else: 
+                    x_value -= 1
+                big_e += increment2
+            y_value += 1
+
+            if y_value > max(y0,y1):
+                break
 
 coordinates = []
-"""
-for i in range(1):
+
+for i in range(10):
     x0 = random.randint(0,249) 
     x1 = random.randint(0,249) 
     y0 = random.randint(0,249) 
@@ -79,7 +93,7 @@ for i in range(1):
     draw_bresenham_line(x0, y0, x1, y1)
     image.putpixel((x0,y0), (255,0,0))
     image.putpixel((x1,y1), (255,0,0))
-"""
+
 with open("coordinates.txt", 'w') as f:
     for points in coordinates:
         for point in points:
@@ -87,7 +101,10 @@ with open("coordinates.txt", 'w') as f:
             f.write("\n")  
 print(coordinates)
 #draw_bresenham_line(193, 34, 126, 245)
-draw_bresenham_line(193, 34, 126, 245)
-image.putpixel((193, 34), (255,0,0))
-image.putpixel((126, 245), (255,0,0))
+"""
+x0,y0,x1,y1 = 193,34,126,245
+draw_bresenham_line(x0, y0, x1, y1)
+image.putpixel((x0, y0), (255,0,0))
+image.putpixel((x1, y1), (255,0,0))
+"""
 image.show()

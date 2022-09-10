@@ -65,7 +65,7 @@ with open("coordinates.txt", 'r') as f:
 for i in range(len(coordinates)):
     coordinates[i] = int(coordinates[i])
 print(coordinates)
-line = 0
+
 print(len(coordinates))
 for i in range(0, len(coordinates), 4):
     print(f"i = {i}")
@@ -76,9 +76,5 @@ for i in range(0, len(coordinates), 4):
     draw_basic_line(x0, y0, x1, y1)
     print(f"{x0} {y0} {x1} {y1}")
 
-    line += 1
-    print(f"Draw {line} lines")
-
-draw_basic_line(126, 245, 193, 34)
 image.show()
 
