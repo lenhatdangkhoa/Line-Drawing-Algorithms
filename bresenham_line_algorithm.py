@@ -1,13 +1,13 @@
-import math
-from multiprocessing.heap import BufferWrapper
-from re import X
-from tkinter import W #Built-in Python Math Library
+import math #Built-in Python Math Library
 from PIL import Image # Python Imaging Library
 import random # Built-in Python Random Library
+import time #Built-in Python Time Library
+from decimal import Decimal 
+import decimal
 
 # Creating a blank dark screen
 image = Image.new(mode="RGB", size = (250,250), color= (0,0,0))
-
+total_time = 0
 """
 The following function will draw a line at the two coordinates:
 (x0,y0) and (x1, y1). This is Bresenham's Line Drawing Algorithm.
@@ -18,11 +18,14 @@ def draw_bresenham_line(x0,y0,x1,y1):
     # If x0 == x1, in other words, it's a vertical line, just draw a vertical line |y1 - y0| times.
     if x0 == x1:
         smaller_y_value = min(y0,y1)
+        start = Decimal(time.time())
         for i in range(abs(y1 - y0)):
             image.putpixel((x0, smaller_y_value + i), (255,255,255))
-
+        end = Decimal(time.time())
+        total = end - start
+        total_time += total
     # If Δx >= Δy, or |x1-x0| >= |y1-y0|, draw horizontally |x1-x0| times.
-    if (abs(x1 - x0)) >= (abs(y1-y0)):
+    elif (abs(x1 - x0)) >= (abs(y1-y0)):
         if x0 > x1:
             print(f"x0 = {x0} y0 = {y0} x1 = {x1} y1 = {y1}")
             x0, x1 = x1, x0
@@ -36,6 +39,7 @@ def draw_bresenham_line(x0,y0,x1,y1):
         y_value = y0 # Y value for the critical loop
         x_value = x0 # X value for the critical loop
         slope = (y1- y0) / (x1 - x0)
+        start = Decimal(time.time())
         while True:
             image.putpixel((x_value, y_value), (255,255,255))
             if big_e < 0:
@@ -50,7 +54,10 @@ def draw_bresenham_line(x0,y0,x1,y1):
 
             if x_value > max(x0,x1):
                 break
-
+        end = Decimal(time.time())
+        total = end - start
+        total_time += total
+      
     # If Δx < Δy, or |x1-x0| < |y1-y0|, draw vertically |y1-y0| times.
     elif (abs(x1-x0)) < (abs(y1-y0)):
         if y0 > y1:
@@ -66,6 +73,8 @@ def draw_bresenham_line(x0,y0,x1,y1):
         y_value = y0 # Y value for the critical loop
         x_value = x0 # X value for the critical loop
         slope = (y1-y0) / (x1 - x0)
+        start = Decimal(time.time())
+
         while True:
             image.putpixel((x_value, y_value), (255,255,255))
             if big_e < 0:
@@ -80,7 +89,10 @@ def draw_bresenham_line(x0,y0,x1,y1):
 
             if y_value > max(y0,y1):
                 break
-
+        end = Decimal(time.time())
+        total = end - start
+        total_time += total
+                  
 coordinates = []
 
 for i in range(10):
@@ -99,12 +111,13 @@ with open("coordinates.txt", 'w') as f:
         for point in points:
             f.write(point)
             f.write("\n")  
-print(coordinates)
+
 #draw_bresenham_line(193, 34, 126, 245)
 """
-x0,y0,x1,y1 = 193,34,126,245
+x0,y0,x1,y1 = 40, 40, 67, 190
 draw_bresenham_line(x0, y0, x1, y1)
 image.putpixel((x0, y0), (255,0,0))
 image.putpixel((x1, y1), (255,0,0))
 """
+print(f"Total time: {total_time:.10f} seconds")  
 image.show()
