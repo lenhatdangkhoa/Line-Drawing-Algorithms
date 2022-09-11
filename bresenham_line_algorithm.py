@@ -1,35 +1,33 @@
 import decimal
 from decimal import Decimal 
-import math #Built-in Python Math Library
-from PIL import Image # Python Imaging Library
-import random # Built-in Python Random Library
-import time #Built-in Python Time Library
-
+from PIL import Image 
+import time 
 
 # Creating a blank dark screen
 image = Image.new(mode="RGB", size = (250,250), color= (0,0,0))
-total_time = 0
-decimal.getcontext().prec = 7
+decimal.getcontext().prec = 7 # Used for timing, up to 7 decimal places
 
 """
 The following function will draw a line at the two coordinates:
 (x0,y0) and (x1, y1). This is Bresenham's Line Drawing Algorithm.
 """
-
 def draw_bresenham_line(x0,y0,x1,y1):
-    total_time = 0
+    total_time = 0 # Calculate the run time for the critical loop
+
     # If x0 == x1, in other words, it's a vertical line, just draw a vertical line |y1 - y0| times.
     if x0 == x1:
         smaller_y_value = min(y0,y1)
         start = Decimal(time.time())
-        for i in range(abs(y1 - y0)):
-            image.putpixel((x0, smaller_y_value), (255,255,255))
+        for i in range(max(y0, y1) + 1):
+            image.putpixel((x0, smaller_y_value + i), (255,255,255))
         end = Decimal(time.time())
         total = end - start
         total_time += total
         return total_time
+
     # If Δx >= Δy, or |x1-x0| >= |y1-y0|, draw horizontally |x1-x0| times.
     elif (abs(x1 - x0)) >= (abs(y1-y0)):
+        # If x0 > x1, switch two coordinates so we can draw starting with the smaller x value
         if x0 > x1:
             x0, x1 = x1, x0
             y0, y1 = y1, y0
@@ -43,6 +41,8 @@ def draw_bresenham_line(x0,y0,x1,y1):
         slope = (y1- y0) / (x1 - x0)
         max_x_value = max(x0,x1)
         start = Decimal(time.time())
+
+        # The critical loop
         while True:
             image.putpixel((x_value, y_value), (255,255,255))
             if big_e < 0:
@@ -54,16 +54,16 @@ def draw_bresenham_line(x0,y0,x1,y1):
                     y_value -= 1
                 big_e += increment2
             x_value += 1
-
             if x_value > max_x_value:
                 break
         end = Decimal(time.time())
-        total = end - start
+        total = end - start # Total run time of the critical loop
         total_time += total
         return total_time
       
     # If Δx < Δy, or |x1-x0| < |y1-y0|, draw vertically |y1-y0| times.
     elif (abs(x1-x0)) < (abs(y1-y0)):
+        # If y0 > y1, switch two coordinates so we can draw starting with the smaller y value
         if y0 > y1:
             x0, x1 = x1, x0
             y0, y1 = y1, y0
@@ -78,6 +78,7 @@ def draw_bresenham_line(x0,y0,x1,y1):
         start = Decimal(time.time())
         max_y_value = max(y0,y1)
 
+        # The critical loop
         while True:
             image.putpixel((x_value, y_value), (255,255,255))
             if big_e < 0:
@@ -89,26 +90,38 @@ def draw_bresenham_line(x0,y0,x1,y1):
                     x_value -= 1
                 big_e += increment2
             y_value += 1
-
             if y_value > max_y_value:
                 break
         end = Decimal(time.time())
-        total = end - start
+        total = end - start # Total run time of the critical loop
         total_time += total
         return total_time
-                  
-coordinates = []
 
-with open("coordinates.txt", 'r') as f:
-    coordinates = f.readlines()
-for i in range(len(coordinates)):
-    coordinates[i] = int(coordinates[i])
-for i in range(0, len(coordinates), 4):
-    x0 = coordinates[i]
-    y0 = coordinates[i + 1]
-    x1 = coordinates[i + 2]
-    y1 = coordinates[i + 3]
-    total_time += draw_bresenham_line(x0, y0, x1, y1) 
+# Save the image and put it in a folder called "Line Results" and name it "bresenham_lines.png"
+def save_image():
+    total_time = 0    
+    coordinates = []
+    with open("coordinates.txt", 'r') as f:
+        coordinates = f.readlines()
+    for i in range(len(coordinates)):
+        coordinates[i] = int(coordinates[i])
+    for i in range(0, len(coordinates), 4):
+        x0 = coordinates[i]
+        y0 = coordinates[i + 1]
+        x1 = coordinates[i + 2]
+        y1 = coordinates[i + 3]
+        total_time += draw_bresenham_line(x0, y0, x1, y1) 
+    print(f"Bresenham Line Algorithm total run time: {total_time} seconds")
+    image.save("Line Results\\bresenham_lines.png")
 
-print(f"Total time: {total_time} seconds")
-image.save("Line Results\\bresenham_lines.png")
+# Display the image to the screen
+def show_image():
+    image.show()
+
+# This piece of code is for debugging/testing purposes. (Uncomment as needed)
+"""
+def manual_draw(x0,y0,x1,y1):
+    draw_bresenham_line(x0,y0,x1,y1)
+manual_draw(125, 0, 125, 249)
+image.show()
+"""
