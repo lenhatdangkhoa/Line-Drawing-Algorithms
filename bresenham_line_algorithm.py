@@ -18,7 +18,7 @@ def draw_bresenham_line(x0,y0,x1,y1):
     if x0 == x1:
         smaller_y_value = min(y0,y1)
         start = Decimal(time.time())
-        for i in range(max(y0, y1) + 1):
+        for i in range(abs(y0 - y1) + 1):
             image.putpixel((x0, smaller_y_value + i), (255,255,255))
         end = Decimal(time.time())
         total = end - start
@@ -122,6 +122,6 @@ def show_image():
 """
 def manual_draw(x0,y0,x1,y1):
     draw_bresenham_line(x0,y0,x1,y1)
-manual_draw(125, 0, 125, 249)
+manual_draw(125, 50, 125, 100)
 image.show()
 """
