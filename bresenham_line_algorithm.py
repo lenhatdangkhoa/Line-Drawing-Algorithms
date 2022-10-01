@@ -48,7 +48,7 @@ def draw_bresenham_line(x0,y0,x1,y1):
             if big_e < 0:
                 big_e += increment1
             else:
-                if slope >= 0: # Increment y value if slope is positive, otherwise decrement
+                if slope >= 0: # Increment y value if slope is positive, otherwise decrement (Dr. Santosh E.)
                     y_value += 1
                 else: 
                     y_value -= 1
@@ -84,7 +84,7 @@ def draw_bresenham_line(x0,y0,x1,y1):
             if big_e < 0:
                 big_e += increment1
             else:
-                if slope >= 0: # Increment y value if slope is positive, otherwise decrement
+                if slope >= 0: # Increment y value if slope is positive, otherwise decrement. (Dr. Santosh E.)
                     x_value += 1
                 else: 
                     x_value -= 1
@@ -122,6 +122,6 @@ def show_image():
 """
 def manual_draw(x0,y0,x1,y1):
     draw_bresenham_line(x0,y0,x1,y1)
-manual_draw(125, 50, 125, 100)
+manual_draw(3, 49, 121, 60)
 image.show()
 """

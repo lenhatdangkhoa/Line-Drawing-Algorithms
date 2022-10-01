@@ -13,7 +13,7 @@ The following function will draw a line at the two coordinates:
 (x0,y0) and (x1, y1). This is a just a basic line drawing algorithm.
 """
 def draw_basic_line(x0, y0, x1, y1):
-    total_time = 0
+    total_time = 0 # Calculate the run time for the critical loop
 
     # If x0 == x1, in other words, it's a vertical line, just draw a vertical line |y1 - y0| times.
     if x0 == x1:
@@ -35,7 +35,7 @@ def draw_basic_line(x0, y0, x1, y1):
             smaller_x_value = min(x0, x1)
             start = Decimal(time.time())
             # The critical loop
-            for i in range(abs(x1 - x0)):
+            for i in range(abs(x1 - x0) + 1):
                 x = smaller_x_value + i
                 y = (slope * x) + y_intercept
                 y = math.trunc(y)
@@ -48,7 +48,7 @@ def draw_basic_line(x0, y0, x1, y1):
             smaller_y_value = min(y0,y1)
             start = Decimal(time.time())
             # The critical loop
-            for i in range(abs(y1-y0)):
+            for i in range(abs(y1-y0) +1):
                y = smaller_y_value + i
                x = (y - y_intercept)/slope
                x = math.trunc(x)
@@ -83,6 +83,6 @@ def show_image():
 """
 def manual_draw(x0,y0,x1,y1):
     draw_basic_line(x0,y0,x1,y1)
-manual_draw(50, 249, 150, 249)
+manual_draw(10 ,24, 25, 150)
 image.show()
 """
